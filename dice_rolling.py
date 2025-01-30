@@ -11,23 +11,23 @@ from random import randint
 class DiceRoll():
     # Constructor for the Class
     def __init__(self):
-        self.dice = 0
-        self.sides = 0
-        self.modifier = 0
+        self.dice = 0 # The number of dice to be rolled
+        self.sides = 0 # The number of sides of the dice
+        self.modifier = 0 # The modifier to be added to the dice
     
-    # This function defines the number of dice to be rolled
+    # This function sets the number of dice to be rolled
     def set_dice(self, dice:int):
         if type(dice) != int:
             raise TypeError("Dice must be an integer") # Return a TypeError if the input is not an integer
         self.dice = dice
     
-    # This function defines the number of sides on the dice
+    # This function sets the number of sides on the dice
     def set_sides(self, sides: int):
         if type(sides) != int:
             raise TypeError("Sides must be an integer") # Return a TypeError if the input is not an integer
         self.sides = sides
     
-    # This function defines the modifier to be added to the roll
+    # This function sets the modifier to be added to the roll
     def set_modifier(self, modifier: int):
         if type(modifier) != int:
             raise TypeError("Modifier must be an integer") # Return a TypeError if the input is not an integer
