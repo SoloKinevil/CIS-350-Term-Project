@@ -9,9 +9,16 @@ Date: 1/29/25
 Time: 4:30pm
 
 Discussion Points:
-    -Gui’s
+    -Gui’s (tkinter -> tk and ttk)
+    -Notebooks in GUI
+    -Labels and Buttons
+    -Storing -> importing / exporting characters
+    - Notebook tabs(Initiative/Queue, Character Info (Recording HP), Inventory / Spells,
+     Campaign Notes, Import/Export)
+    - Health Tracking and Logs
 
 Goals & Responsibilities:
-    -
-
+    - View info on Tkinter
+    - Labels & Buttons Understanding
+    - Start developing GUI
 
