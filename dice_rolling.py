@@ -19,18 +19,24 @@ class DiceRoll():
     def set_dice(self, dice:int):
         if type(dice) != int:
             raise TypeError("Dice must be an integer") # Return a TypeError if the input is not an integer
+        elif dice < 1:
+            raise ValueError("Dice must be greater than 0") # Return a ValueError if the input is less than 1
         self.dice = dice
     
     # This function sets the number of sides on the dice
     def set_sides(self, sides: int):
         if type(sides) != int:
             raise TypeError("Sides must be an integer") # Return a TypeError if the input is not an integer
+        elif sides < 1:
+            raise ValueError("Sides must be greater than 0") # Return a ValueError if the input is less than 1
         self.sides = sides
     
     # This function sets the modifier to be added to the roll
     def set_modifier(self, modifier: int):
         if type(modifier) != int:
             raise TypeError("Modifier must be an integer") # Return a TypeError if the input is not an integer
+        elif modifier < 0:
+            raise ValueError("Modifier must be greater than or equal to 0") # Return a ValueError if the input is less than 0
         self.modifier = modifier
     
     # This function rolls the dice and returns the result
