@@ -30,6 +30,7 @@ class GUI(tk.Frame):
 
         # Initialize Entry values for NOTES
         self.entry = tk.Entry()  # Starts tk entry field
+
         self.contents = tk.StringVar()
         self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
         self.entry.pack()
@@ -55,5 +56,11 @@ class GUI(tk.Frame):
 # class import()
 
 root = tk.Tk()
+root.title("D&D Companion App")
+root.geometry("300x300")
+root.columnconfigure(0, weight=1)
+root.columnconfigure(1, weight=1)
+root.rowconfigure(0, weight=1)
+
 myapp = GUI(root)
 myapp.mainloop()
