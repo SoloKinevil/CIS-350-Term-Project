@@ -13,15 +13,14 @@ class GUI(tk.Frame):
     # Constructor for user GUI and format
     def __init__(self, master):
         super().__init__(master)
-        self.master = master
         self.pack()
-        self.create_widgets()
+        self.create_widgets()  # Call to create all widgets before run
 
         # Start application
         self.run()
 
+    # This function initializes all widgets and labels
     def create_widgets(self):
-        # Initialize all widgets and labels
 
         # ENTRY WIDGET
         # Read in saved_contents to updated user notes
@@ -29,22 +28,23 @@ class GUI(tk.Frame):
         self.saved_contents = f.read()
         f.close()
 
-        # Initialize entry values for NOTES
-        self.entry = tk.Entry()
+        # Initialize Entry values for NOTES
+        self.entry = tk.Entry()  # Starts tk entry field
         self.contents = tk.StringVar()
-        self.contents.set(self.saved_contents)
+        self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
         self.entry.pack()
 
+    # This function runs GUI and allows for user input
     def run(self):
 
-        # Tell the entry widget to watch this variable.
+        # Widget follows changes
         self.entry["textvariable"] = self.contents
 
-        # Saves new user input to text document when return it pressed
+        # Saves new user changes to text document when return it pressed
         self.entry.bind('<Key-Return>', self.save_contents)
 
+    # This function saves the users stored information
     def save_contents(self, *args):
-        # Function to save users stored information
         self.saved_contents = self.contents.get()
         f = open('saved_contents.txt', 'w')
         f.write(self.saved_contents)
