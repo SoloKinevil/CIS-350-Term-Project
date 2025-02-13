@@ -8,6 +8,8 @@ data as well as specific inventories and notes.
 
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
+import dice_rolling
 
 class GUI(tk.Frame):
     # Constructor for user GUI and format
@@ -15,6 +17,11 @@ class GUI(tk.Frame):
         super().__init__(master)
         self.pack()
         self.create_widgets()  # Call to create all widgets before run
+
+        notebook = ttk.Notebook(self)
+        notebook.pack(expand = 'true', fill = 'both')
+        dice_roll_tab = Dice_roll_tab(notebook)
+        notebook.add(dice_roll_tab, text='Dice Roll')
 
         # Start application
         self.run()
@@ -50,6 +57,24 @@ class GUI(tk.Frame):
         f = open('saved_contents.txt', 'w')
         f.write(self.saved_contents)
         f.close()
+
+class Dice_roll_tab(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.dice_roller = dice_rolling.DiceRoll()
+        self.dice_roller.set_dice(1)
+        self.dice_roller.set_sides(20)
+        
+        self.label2 = tk.Label(self, text="Roll: 0")
+        self.label2.pack()
+
+        self.button4 = tk.Button(self, text='Roll', command=self.roll_dice)
+        self.button4.pack()
+
+    def roll_dice(self):
+        result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
+        self.label2.config(text=f"Roll: {result}")
 
 # class export()
 
