@@ -42,13 +42,13 @@ class Notes_tab(ttk.Frame):
         # Initialize Entry values for NOTES
         self.notes = tk.Entry(self ,width = 100)  # Starts tk entry field
 
-        open_button = tk.Button(self, text="Import Data", command=self.open_file)
-        open_button.pack(pady=20)
-
         self.contents = tk.StringVar()
         self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
         self.notes.pack()
 
+        open_button = tk.Button(self, text="Import Data", command=self.open_file)
+        open_button.pack(pady=20)
+        
         # Widget follows changes
         self.notes["textvariable"] = self.contents
 
