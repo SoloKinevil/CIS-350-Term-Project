@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import dice_rolling
+from tkinter import filedialog
 
 class GUI(tk.Frame):
     # Constructor for user GUI and format
@@ -25,7 +26,7 @@ class GUI(tk.Frame):
         notebook.add(notes, text='Character',)
 
 
-# This Class initialized the Notes tab
+# This Class initializes the Notes tab where the fields are saved
 class Notes_tab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -41,6 +42,9 @@ class Notes_tab(ttk.Frame):
         # Initialize Entry values for NOTES
         self.notes = tk.Entry(self ,width = 100)  # Starts tk entry field
 
+        open_button = tk.Button(self, text="Import Data", command=self.open_file)
+        open_button.pack(pady=20)
+
         self.contents = tk.StringVar()
         self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
         self.notes.pack()
@@ -51,12 +55,28 @@ class Notes_tab(ttk.Frame):
         # Saves new user changes to text document when return it pressed
         self.notes.bind('<Key-Return>', self.save_contents)
 
-    # This function saves the users stored information
+    # This function saves the users stored information "Export"
     def save_contents(self, *args):
         self.saved_contents = self.contents.get()
         f = open('saved_contents.txt', 'w')
         f.write(self.saved_contents)
         f.close()
+
+    def open_file(self):
+        filepath = filedialog.askopenfilename()
+        while filepath:
+            if filepath.endswith('.txt'):
+                print("Opening Text File: " + filepath)
+                with open(filepath, 'r') as incoming, open('saved_contents.txt', 'w') as Characterdata:
+                    for line in incoming:
+                        Characterdata.write(line)
+                f = open('saved_contents.txt', 'r')
+                self.saved_contents = f.read()
+                f.close()
+                return
+        return
+
+
 
 
 
@@ -78,11 +98,6 @@ class Dice_roll_tab(ttk.Frame):
         result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
         self.label2.config(text=f"Roll: {result}")
 
-
-
-# class export()
-
-# class import()
 
 root = tk.Tk()
 root.title("D&D Companion App")
