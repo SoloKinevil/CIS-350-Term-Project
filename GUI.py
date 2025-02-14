@@ -17,12 +17,12 @@ class GUI(tk.Frame):
         super().__init__(master)
         self.pack()
 
-        notebook = ttk.Notebook(self)
-        notebook.pack(expand = 'true', fill = 'both')
+        notebook = ttk.Notebook(self, height = 300, width = 300)
+        notebook.pack(expand = True, fill = 'both')
         dice_roll_tab = Dice_roll_tab(notebook)
         notes = Notes_tab(notebook)
         notebook.add(dice_roll_tab, text='Dice Roll')
-        notebook.add(notes, text='Notes')
+        notebook.add(notes, text='Character',)
 
 
 # This Class initialized the Notes tab
@@ -35,8 +35,11 @@ class Notes_tab(ttk.Frame):
         self.saved_contents = f.read()
         f.close()
 
+        self.label2 = tk.Label(self, text="Notes")
+        self.label2.pack()
+
         # Initialize Entry values for NOTES
-        self.notes = tk.Entry(self)  # Starts tk entry field
+        self.notes = tk.Entry(self ,width = 100)  # Starts tk entry field
 
         self.contents = tk.StringVar()
         self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
