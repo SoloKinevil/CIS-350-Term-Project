@@ -16,19 +16,19 @@ class GUI(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.pack()
-        self.create_widgets()  # Call to create all widgets before run
 
         notebook = ttk.Notebook(self)
         notebook.pack(expand = 'true', fill = 'both')
         dice_roll_tab = Dice_roll_tab(notebook)
+        notes = Notes_tab(notebook)
         notebook.add(dice_roll_tab, text='Dice Roll')
+        notebook.add(notes, text='Notes')
 
-        # Start application
-        self.run()
 
-    # This function initializes all widgets and labels
-    def create_widgets(self):
-
+# This Class initialized the Notes tab
+class Notes_tab(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
         # ENTRY WIDGET
         # Read in saved_contents to updated user notes
         f = open('saved_contents.txt', 'r')
@@ -36,20 +36,17 @@ class GUI(tk.Frame):
         f.close()
 
         # Initialize Entry values for NOTES
-        self.entry = tk.Entry()  # Starts tk entry field
+        self.notes = tk.Entry(self)  # Starts tk entry field
 
         self.contents = tk.StringVar()
         self.contents.set(self.saved_contents)  # Sets the entry field to previous notes
-        self.entry.pack()
-
-    # This function runs GUI and allows for user input
-    def run(self):
+        self.notes.pack()
 
         # Widget follows changes
-        self.entry["textvariable"] = self.contents
+        self.notes["textvariable"] = self.contents
 
         # Saves new user changes to text document when return it pressed
-        self.entry.bind('<Key-Return>', self.save_contents)
+        self.notes.bind('<Key-Return>', self.save_contents)
 
     # This function saves the users stored information
     def save_contents(self, *args):
@@ -57,6 +54,8 @@ class GUI(tk.Frame):
         f = open('saved_contents.txt', 'w')
         f.write(self.saved_contents)
         f.close()
+
+
 
 class Dice_roll_tab(ttk.Frame):
     def __init__(self, parent):
@@ -76,13 +75,15 @@ class Dice_roll_tab(ttk.Frame):
         result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
         self.label2.config(text=f"Roll: {result}")
 
+
+
 # class export()
 
 # class import()
 
 root = tk.Tk()
 root.title("D&D Companion App")
-root.geometry("300x300")
+
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
 root.rowconfigure(0, weight=1)
