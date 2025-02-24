@@ -11,6 +11,7 @@ from tkinter import *
 from tkinter import ttk
 import dice_rolling
 from tkinter import filedialog
+import unittest
 
 class GUI(tk.Frame):
     # Constructor for user GUI and format
