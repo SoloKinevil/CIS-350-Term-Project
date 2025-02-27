@@ -1,0 +1,17 @@
+CIS 350 – Weekly Meeting Minutes Template
+
+Project Name: CIS 350 Term Project
+
+Members Present: Ian, Shayan, Phoenix
+
+Date: 2/20/25
+
+Time: 4:30pm
+
+Discussion Points:
+    - Fleshing out Character Tab
+    - Unit Test Discussion
+
+Goals & Responsibilities:
+    - Continue with current work and unit testing.
+    - Work on Release 1 Journal.
