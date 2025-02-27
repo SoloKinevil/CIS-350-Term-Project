@@ -144,6 +144,8 @@ class Dice_roll_tab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
+        self.updated_sides = 20
+
         self.dice_roller = dice_rolling.DiceRoll()
         self.dice_roller.set_dice(1)
         self.dice_roller.set_sides(20)
@@ -154,9 +156,19 @@ class Dice_roll_tab(ttk.Frame):
         self.button4 = tk.Button(self, text='Roll', command=self.roll_dice)
         self.button4.pack()
 
+        self.confirm_button = tk.Button(self, text = 'Confirm', command = self.set_sides)
+        self.confirm_button.pack()
+
+        self.sides1 = tk.Entry(self, width = 10)
+        self.sides1.pack()
+
     def roll_dice(self):
         result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
         self.label2.config(text=f"Roll: {result}")
+
+    def set_sides(self):
+        string_sides = self.sides1.get()
+        self.dice_roller.set_sides(int(string_sides))
 
 
 if __name__ == "__main__":
