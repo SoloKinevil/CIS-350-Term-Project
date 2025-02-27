@@ -69,7 +69,7 @@ if __name__ == "__main__":
     dice.set_dice(1)
     dice.set_sides(20)
     dice.set_modifier(0)
-    print(dice.get_dice())
-    print(dice.get_sides())
-    print(dice.get_modifier())
+    print(dice.get_dice()) # Print the currently set value for Dice
+    print(dice.get_sides()) # Print the currently set value for Sides
+    print(dice.get_modifier()) # Print the currently set value for Modifier
     print(dice.dice_roll(dice.dice, dice.sides)) # Print the result of the dice roll
