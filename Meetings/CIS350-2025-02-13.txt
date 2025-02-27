@@ -1,0 +1,19 @@
+CIS 350 – Weekly Meeting Minutes Template
+
+Project Name: CIS 350 Term Project
+
+Members Present: Ian, Shayan, Phoenix
+
+Date: 2/13/25
+
+Time: 4:30pm
+
+Discussion Points:
+    - Dice Roll Function implemented into GUI
+    - Import / Export Feature for Character Tab in GUI
+    - Buttons on GUI not working too well for Ian for some reason? (Phoenix and Shayan not having any problems)
+    - Program UI Design
+
+Goals & Responsibilities:
+    - Start on Unit Test for program so far.
+    - Work on fleshing out the program's functions and features a bit more.
