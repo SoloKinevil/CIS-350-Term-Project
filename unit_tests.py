@@ -63,6 +63,24 @@ class TestDiceRoll(unittest.TestCase):
         dice.set_dice(1) # Set the number of dice to 1
         dice.set_sides(20) # Set the sides of the dice to 20
         self.assertTrue(dice.dice_roll(dice.dice, dice.sides) in range(1, 21)) # Check if the roll is between 1 and 20
+
+    def test_get_dice(self):
+        # Initialize the DiceRoll class
+        dice = DiceRoll()
+        dice.set_dice(1) # Set the number of dice to 1
+        self.assertEqual(dice.get_dice(), 1) # Check if the number of dice is 1
+
+    def test_get_sides(self):
+        #Initialize the DiceRoll class
+        dice = DiceRoll()
+        dice.set_sides(20) # Set the sides of the dice to 20
+        self.assertEqual(dice.get_sides(), 20) # Check if the sides are 20
+    
+    def test_get_modifier(self):
+        # Initialize the DiceRoll class
+        dice = DiceRoll()
+        dice.set_modifier(1) # Set the modifier to be added to the dice roll to 1
+        self.assertEqual(dice.get_modifier(), 1) # Check if the modifier is 1
     
 
 if __name__ == '__main__':
