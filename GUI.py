@@ -105,9 +105,10 @@ class Notes_tab(ttk.Frame):
             self.dex_contents.set(lines[3].strip())
             self.note_contents.set(lines[4].strip())
 
-    # This function saves the users stored information "Export"
+    # This function saves the users stored information to a file of their choice "Export"
     def save_contents(self, *args):
-        with open('saved_contents.txt', 'w') as f:
+        filepath = filedialog.asksaveasfilename()
+        with open(filepath, 'w') as f:
             f.write(self.name_contents.get() + "\n")
             f.write(self.race_contents.get() + "\n")
             f.write(self.Class_contents.get() + "\n")
