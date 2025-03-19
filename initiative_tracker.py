@@ -6,9 +6,6 @@ This file contains the code for the Initative Tracker to be used in the GUI. Thi
 cycle through the list of combatants, and roll for initiative for each combatant should they choose to do so.
 '''
 
-import json
-import os
-
 class InitiativeTracker:
     def __init__(self):
         self.combatants = {} # Stores combatants and their initiative, {name: initiative}
