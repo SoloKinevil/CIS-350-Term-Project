@@ -6,6 +6,7 @@ This file contains the unit tests for the DiceRoll class along with other classe
 """
 import unittest
 from dice_rolling import DiceRoll
+from initiative_tracker import InitiativeTracker
 
 class TestDiceRoll(unittest.TestCase):
     # Test the set_dice function
@@ -81,7 +82,89 @@ class TestDiceRoll(unittest.TestCase):
         dice = DiceRoll()
         dice.set_modifier(1) # Set the modifier to be added to the dice roll to 1
         self.assertEqual(dice.get_modifier(), 1) # Check if the modifier is 1
-    
 
-if __name__ == '__main__':
-    unittest.main() # Run the tests
+class TestInitiativeTracker(unittest.TestCase):
+    # Test the add_combatant function
+    def test_add_combatant(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        self.assertEqual(initiative.combatants["Goblin"], 15) # Check if the combatant was added to the combatants dictionary
+
+    # Test the remove_combatant function
+    def test_remove_combatant(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.remove_combatant("Goblin") # Remove the combatant from the Initiative Tracker
+        self.assertNotIn("Goblin", initiative.combatants) # Check if the combatant was removed from the combatants dictionary
+    
+    # Test the remove_combatant function with a combatant that is not in the combatants dictionary
+    def test_remove_combatant_not_in_combatants(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.remove_combatant("Orc") # Try to remove a combatant that is not in the combatants dictionary
+        self.assertEqual(initiative.combatants["Goblin"], 15) # Check if the combatant is still in the combatants dictionary
+
+    # Test the update_turn_order function
+    def test_update_turn_order(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order() # Update the turn order
+        self.assertEqual(initiative.turn_order, ["Goblin", "Orc"]) # Check if the turn order is updated correctly
+
+    # Test the next_turn function
+    def test_next_turn(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order() # Update the turn order
+        initiative.next_turn() # Advance to the next turn
+        self.assertEqual(initiative.current_turn, 1) # Check if the current turn is updated correctly
+
+    # Test the previous_turn function
+    def test_previous_turn(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order() # Update the turn order
+        initiative.next_turn() # Advance to the next turn
+        initiative.previous_turn() # Go back to the previous turn
+        self.assertEqual(initiative.current_turn, 0) # Check if the current turn is updated correctly
+    
+    # Test the reset_turns function
+    def test_reset_turns(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order() # Update the turn order
+        initiative.next_turn() # Advance to the next turn
+        initiative.reset_turns() # Reset the turn order
+        self.assertEqual(initiative.current_turn, 0) # Check if the current turn is reset to 0
+    
+    # Test the display_initiative_order function
+    def test_display_initiative_order(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order()
+        initiative.display_initiative_order()
+
+    # Test the rest_session function
+    def test_reset_session(self):
+        # Initialize the InitiativeTracker class
+        initiative = InitiativeTracker()
+        initiative.add_combatant("Goblin", 15) # Add a combatant to the Initiative Tracker
+        initiative.add_combatant("Orc", 10) # Add another combatant to the Initiative Tracker
+        initiative.update_turn_order()
+        initiative.reset_session() # Reset the Initiative Session
+        self.assertEqual(initiative.combatants, {}) # Check if the combatants dictionary is empty
+        self.assertEqual(initiative.turn_order, []) # Check if the turn order is empty
+        self.assertEqual(initiative.current_turn, 0) # Check if the current turn is reset to 0
