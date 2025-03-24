@@ -18,22 +18,74 @@ class GUI(tk.Frame):
     # Constructor for user GUI and format
     def __init__(self, master):
         super().__init__(master)
-        self.pack()
+        self.pack(fill="both", expand=True)
 
-        # Create notebook and format
-        notebook = ttk.Notebook(self, height = 500, width = 800)
-        notebook.pack(expand = True, fill = 'both')
+        # Create a frame to hold everything
+        self.container = tk.Frame(self)
+        self.container.pack(fill="both", expand=True)
 
-        #Add notebook tab with roll function
-        dice_roll_tab = Dice_roll_tab(notebook)
-        notebook.add(dice_roll_tab, text='Dice Roll')
+        # Make container grid
+        self.container.columnconfigure(0, weight=1)
+        self.container.rowconfigure(0, weight=1)
 
-        # Add notebook tab with Notes functionality
-        notes = Notes_tab(notebook)
-        notebook.add(notes, text='Active Character', )
+        # Create frame for the notebook
+        self.notebook_frame = ttk.Frame(self.container)
+        self.notebook_frame.grid(row=0, column=0, sticky="nsew")
 
-        main = Main_menu_tab(notebook, notes)
-        notebook.add(main, text = 'Main Menu')
+        self.notebook = ttk.Notebook(self.notebook_frame, height=500, width=800)
+        self.notebook.pack(fill="both", expand=True)
+
+        # Create frame for settings
+        self.settings_frame = Notes_tab(self.container)
+        self.settings_frame.grid(row=0, column=0, sticky="nsew")
+
+
+        # come back and fix later, dice roll should NOT be a tab
+        self.dice_roll = Dice_roll_tab(self.notebook)
+        #self.notebook.add(self.dice_roll, text = "Dice Roll")
+
+        # Add tabs to the notebook
+        self.main = Main_menu_tab(self.notebook, self.settings_frame, self.dice_roll)
+        self.notebook.add(self.main, text="Main Menu")
+        dice_roll_tab = Dice_roll_tab(self.notebook)
+        #self.notebook.add(dice_roll_tab, text="Dice Roll")
+
+        image_path = "settings_icon.png"
+
+        try:
+            # Open image file correctly
+            image = Image.open(image_path).convert("RGBA")  # Convert to avoid transparency issues
+            image = image.resize((20, 20), Image.Resampling.LANCZOS)  # Resize if needed
+            self.image_tk = ImageTk.PhotoImage(image)  # Convert for Tkinter
+        except Exception as e:
+            print("Error loading image:", e)
+            self.image_tk = None  # Prevent crash if file is missing
+
+        # Display image in a label
+        if self.image_tk:
+            settings_button = tk.Button(self.notebook_frame, image=self.image_tk, command=self.show_settings)
+            settings_button.pack(side="bottom", pady=5)
+
+        # Create settings button
+
+        # Create main menu button
+        back_button = tk.Button(self.settings_frame, text="Back", command=self.show_main)
+        back_button.pack(side="bottom", pady=10)
+
+        # Show tabs by default
+        self.show_main()
+
+    def show_settings(self):
+        self.settings_frame.tkraise()
+
+    def show_main(self):
+        new_name = self.settings_frame.name_contents.get()
+        new_race = self.settings_frame.race_contents.get()
+        new_class = self.settings_frame.Class_contents.get()
+        self.main.left_frame.char_name.config(text=f"Name: {new_name}")
+        self.main.left_frame.char_race.config(text=f"Race: {new_race}")
+        self.main.left_frame.char_class.config(text=f"Class: {new_class}")
+        self.notebook_frame.tkraise()
 
 
 
@@ -98,6 +150,9 @@ class Notes_tab(ttk.Frame):
         save_button = tk.Button(self, text="Save Data", command=self.save_contents)
         save_button.pack(pady=20)
 
+        close_button = tk.Button(self, text = "Close", command = self.hide)
+        close_button.pack()
+
         # Set fields to previously saved values
         with open('saved_contents.txt', 'r') as incoming:
             lines = incoming.readlines()
@@ -142,6 +197,9 @@ class Notes_tab(ttk.Frame):
                 return
             return
 
+    def hide(self):
+        self.master.main.tkraise()
+
 
 
 
@@ -177,75 +235,86 @@ class Dice_roll_tab(ttk.Frame):
 
 
 class Main_menu_tab(ttk.Frame):
-    def __init__(self, parent, notes_tab):
+    def __init__(self, parent, notes_tab, dice_roll):
         super().__init__(parent)
 
         self.notes_tab = notes_tab
+        self.dice_roll = dice_roll
 
         # Configure columns
-        self.columnconfigure(0, weight=3)  # Left spacer
+        self.columnconfigure(0, weight=1)  # Left spacer
         self.columnconfigure(1, weight=1)  # Middle area
-        self.columnconfigure(2, weight=7)  # Right spacer
+        self.columnconfigure(2, weight=4)  # Right spacer
         
         # Configure rows
-        self.rowconfigure(0, weight=4)  # Top spacer
-        self.rowconfigure(1, weight=0)  # Middle spacer
-        self.rowconfigure(2, weight=0)  # Bottom spacer
+        self.rowconfigure(0, weight=1)  # Top spacer 
 
-        # Create a thin middle frame
-        middle_frame = tk.Frame(self, bg='black')
-        middle_frame.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+
+        self.middle_frame = MainMiddleFrame(self, self.notes_tab, self.dice_roll)
+        self.middle_frame.grid(row = 0, column = 1, padx = 5, pady = 0, sticky = "nsew")
+
+        self.left_frame = MainLeftFrame(self, self.notes_tab)
+        self.left_frame.grid(row = 0, column = 0, padx = 5, pady = 0, sticky = "nsew")
+
+        self.right_frame = MainRightFrame(self)
+        self.right_frame.grid(row = 0, column = 2, padx = 5, pady = 0, sticky = "nsew")
+
+
+class MainMiddleFrame(tk.Frame):
+    def __init__(self, parent, notes_tab, dice_roll):
+        super().__init__(parent, bg = "black")
+
+        self.notes_tab = notes_tab
+        self.dice_roll = dice_roll
 
         # Set grid weight for middle_frame
-        middle_frame.columnconfigure(0, weight=1)  # Ensures content expands within the frame
-        middle_frame.rowconfigure(0, weight=1)  # Log title
-        middle_frame.rowconfigure(1, weight=5)  # Log box
-        middle_frame.rowconfigure(2, weight=50)  # Spacer to push log box up
+        self.columnconfigure(0, weight=1)  # Ensures content expands within the frame
+        self.rowconfigure(0, weight=1)  # Log title
+        self.rowconfigure(1, weight=5)  # Log box
+        self.rowconfigure(2, weight=50)  # Spacer to push log box up
 
         # Title label
-        main_label = tk.Label(middle_frame, text="Game Log", font=("Georgia", 14), fg="white", bg="black")
+        main_label = tk.Label(self, text="Game Log", font=("Georgia", 17), fg="white", bg="black")
         main_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
 
         # Log text box
-        log_text = tk.Text(middle_frame, height=12, width=40, bg="#1E1A2E", fg="white")
-        log_text.grid(row=1, column=0, pady=(0, 0), padx=5, sticky="nsew")  # `pady=(0, 20)` moves it up
+        self.log_text = tk.Text(self, height=12, width=40, bg="#1E1A2E", fg="white")
+        self.log_text.grid(row=1, column=0, pady=(0, 0), padx=5, sticky="nsew")  # `pady=(0, 20)` moves it up
 
+        self.dice_roller = dice_rolling.DiceRoll()
+        self.dice_roller.set_dice(1)
+        self.dice_roller.set_sides(20)
 
+        # Roll button
+        roll_button = tk.Button(self, text = "Roll Dice", command = self.roll_dice, bg="black", highlightthickness=0, borderwidth=0)
+        roll_button.grid(row = 2, column = 0)
 
-        self.left_frame = MainLeftFrame(self, self.notes_tab)
+    def roll_dice(self):
+        result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
+        self.log_text.insert("end", f"Rolling dice...\n")
 
-        self.left_frame.grid(row = 0, column = 0, padx = 5, pady = 5, sticky = "nsew")
+        self.after(500, lambda: self.show_dice_result(result))
 
-        right_frame = tk.Frame(self, bg = 'grey')
-        right_frame.grid(row = 0, column = 2, padx = 5, pady = 5, sticky = "nsew")
+    def show_dice_result(self, result): 
+        """Displays the dice roll result after a short delay."""
+        self.log_text.insert("end", f"{self.notes_tab.name_contents.get()} rolled a: {result}\n")  # Append result to log
+        self.log_text.see("end")  # Auto-scroll to latest entry
 
-        right_frame.columnconfigure(0, weight = 1)
-        right_frame.rowconfigure(0, weight = 1)
-        right_frame.rowconfigure(1, weight = 1)
-        right_frame.rowconfigure(2, weight = 1)
-
-        right_label = tk.Label(right_frame, text="Inventory", font=("Georgia", 14), fg="white", bg="black")
-        right_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
-
-
-class MainLeftFrame(ttk.Frame):
+class MainLeftFrame(tk.Frame):
     def __init__(self, parent, notes_tab):
-        super().__init__(parent, style = "TFrame")
+        super().__init__(parent, bg = "grey")
 
         self.notes_tab = notes_tab
 
-        left_frame = tk.Frame(self, bg = 'grey')
-        left_frame.grid(row = 0, column = 0, padx = 5, pady = 5, sticky = "nsew")
+        self.columnconfigure(0, weight = 1)
+        self.rowconfigure(0, weight = 1)
+        self.rowconfigure(1, weight = 1)
+        self.rowconfigure(2, weight = 5)
+        self.rowconfigure(3, weight = 5)
+        self.rowconfigure(4, weight = 5)
+        self.rowconfigure(5, weight = 40)
 
-        left_frame.columnconfigure(0, weight = 1)
-        left_frame.rowconfigure(0, weight = 1)
-        left_frame.rowconfigure(1, weight = 1)
-        left_frame.rowconfigure(2, weight = 5)
-        left_frame.rowconfigure(3, weight = 5)
-        left_frame.rowconfigure(4, weight = 5)
-        left_frame.rowconfigure(5, weight = 40)
-
-        left_label = tk.Label(left_frame, text="Character", font=("Georgia", 14), fg="white", bg="black")
+        left_label = tk.Label(self, text="Character", font=("Georgia", 17), fg="white", bg = "grey")
         left_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
 
         image_path = "blank-pfp.jpg"
@@ -261,15 +330,33 @@ class MainLeftFrame(ttk.Frame):
 
         # Display image in a label
         if self.image_tk:
-            image_label = tk.Label(left_frame, image=self.image_tk, bg="black")
+            image_label = tk.Label(self, image=self.image_tk, bg="black")
             image_label.grid(row=1, column=0, pady=0, sticky="n")
 
-        char_name = tk.Label(left_frame, text = f"Name: {self.notes_tab.name_contents.get()}", font = ("Georgia", 14))
-        char_name.grid(row = 2, column = 0, pady = 0, sticky = "n")
-        char_race = tk.Label(left_frame, text = f"Race: {self.notes_tab.race_contents.get()}", font = ("Georgia", 14))
-        char_race.grid(row = 3, column = 0, pady = 0, sticky = "n")
-        char_class = tk.Label(left_frame, text = f"Class: {self.notes_tab.Class_contents.get()}", font = ("Georgia", 14))
-        char_class.grid(row = 4, column = 0, pady = 0, sticky = "n")
+        self.char_name = tk.Label(self, text = f"Name: {self.notes_tab.name_contents.get()}", font = ("Georgia", 14))
+        self.char_name.grid(row = 2, column = 0, pady = 0, sticky = "n")
+        self.char_race = tk.Label(self, text = f"Race: {self.notes_tab.race_contents.get()}", font = ("Georgia", 14))
+        self.char_race.grid(row = 3, column = 0, pady = 0, sticky = "n")
+        self.char_class = tk.Label(self, text = f"Class: {self.notes_tab.Class_contents.get()}", font = ("Georgia", 14))
+        self.char_class.grid(row = 4, column = 0, pady = 0, sticky = "n")
+
+
+class MainRightFrame(tk.Frame):  # ✅ Change ttk.Frame → tk.Frame
+    def __init__(self, parent):
+        super().__init__(parent, bg="grey")  # ✅ Set background color here
+
+        # ✅ Make sure this frame expands fully
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # ✅ Inventory label stays at the top
+        right_label = tk.Label(self, text="Inventory", font=("Georgia", 17), fg="white", bg="grey")
+        right_label.grid(row=0, column=0, pady=5, sticky="n")
+
+        # ✅ Stretch the right frame
+        self.rowconfigure(1, weight=1)
+
+
 
 
 
