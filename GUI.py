@@ -12,6 +12,7 @@ from tkinter import ttk
 import dice_rolling
 from tkinter import filedialog
 import unittest
+from PIL import Image, ImageTk
 
 class GUI(tk.Frame):
     # Constructor for user GUI and format
@@ -20,7 +21,7 @@ class GUI(tk.Frame):
         self.pack()
 
         # Create notebook and format
-        notebook = ttk.Notebook(self, height = 450, width = 300)
+        notebook = ttk.Notebook(self, height = 500, width = 800)
         notebook.pack(expand = True, fill = 'both')
 
         #Add notebook tab with roll function
@@ -30,6 +31,9 @@ class GUI(tk.Frame):
         # Add notebook tab with Notes functionality
         notes = Notes_tab(notebook)
         notebook.add(notes, text='Active Character', )
+
+        main = Main_menu_tab(notebook, notes)
+        notebook.add(main, text = 'Main Menu')
 
 
 
@@ -170,6 +174,105 @@ class Dice_roll_tab(ttk.Frame):
     def set_sides(self):
         string_sides = self.sides1.get()
         self.dice_roller.set_sides(int(string_sides))
+
+
+class Main_menu_tab(ttk.Frame):
+    def __init__(self, parent, notes_tab):
+        super().__init__(parent)
+
+        self.notes_tab = notes_tab
+
+        # Configure columns
+        self.columnconfigure(0, weight=3)  # Left spacer
+        self.columnconfigure(1, weight=1)  # Middle area
+        self.columnconfigure(2, weight=7)  # Right spacer
+        
+        # Configure rows
+        self.rowconfigure(0, weight=4)  # Top spacer
+        self.rowconfigure(1, weight=0)  # Middle spacer
+        self.rowconfigure(2, weight=0)  # Bottom spacer
+
+        # Create a thin middle frame
+        middle_frame = tk.Frame(self, bg='black')
+        middle_frame.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+
+        # Set grid weight for middle_frame
+        middle_frame.columnconfigure(0, weight=1)  # Ensures content expands within the frame
+        middle_frame.rowconfigure(0, weight=1)  # Log title
+        middle_frame.rowconfigure(1, weight=5)  # Log box
+        middle_frame.rowconfigure(2, weight=50)  # Spacer to push log box up
+
+        # Title label
+        main_label = tk.Label(middle_frame, text="Game Log", font=("Georgia", 14), fg="white", bg="black")
+        main_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+
+        # Log text box
+        log_text = tk.Text(middle_frame, height=12, width=40, bg="#1E1A2E", fg="white")
+        log_text.grid(row=1, column=0, pady=(0, 0), padx=5, sticky="nsew")  # `pady=(0, 20)` moves it up
+
+
+
+        self.left_frame = MainLeftFrame(self, self.notes_tab)
+
+        self.left_frame.grid(row = 0, column = 0, padx = 5, pady = 5, sticky = "nsew")
+
+        right_frame = tk.Frame(self, bg = 'grey')
+        right_frame.grid(row = 0, column = 2, padx = 5, pady = 5, sticky = "nsew")
+
+        right_frame.columnconfigure(0, weight = 1)
+        right_frame.rowconfigure(0, weight = 1)
+        right_frame.rowconfigure(1, weight = 1)
+        right_frame.rowconfigure(2, weight = 1)
+
+        right_label = tk.Label(right_frame, text="Inventory", font=("Georgia", 14), fg="white", bg="black")
+        right_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+
+
+class MainLeftFrame(ttk.Frame):
+    def __init__(self, parent, notes_tab):
+        super().__init__(parent, style = "TFrame")
+
+        self.notes_tab = notes_tab
+
+        left_frame = tk.Frame(self, bg = 'grey')
+        left_frame.grid(row = 0, column = 0, padx = 5, pady = 5, sticky = "nsew")
+
+        left_frame.columnconfigure(0, weight = 1)
+        left_frame.rowconfigure(0, weight = 1)
+        left_frame.rowconfigure(1, weight = 1)
+        left_frame.rowconfigure(2, weight = 5)
+        left_frame.rowconfigure(3, weight = 5)
+        left_frame.rowconfigure(4, weight = 5)
+        left_frame.rowconfigure(5, weight = 40)
+
+        left_label = tk.Label(left_frame, text="Character", font=("Georgia", 14), fg="white", bg="black")
+        left_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+
+        image_path = "blank-pfp.jpg"
+
+        try:
+            # Open image file correctly
+            image = Image.open(image_path).convert("RGB")  # Convert to avoid transparency issues
+            image = image.resize((180, 180), Image.Resampling.LANCZOS)  # Resize if needed
+            self.image_tk = ImageTk.PhotoImage(image)  # Convert for Tkinter
+        except Exception as e:
+            print("Error loading image:", e)
+            self.image_tk = None  # Prevent crash if file is missing
+
+        # Display image in a label
+        if self.image_tk:
+            image_label = tk.Label(left_frame, image=self.image_tk, bg="black")
+            image_label.grid(row=1, column=0, pady=0, sticky="n")
+
+        char_name = tk.Label(left_frame, text = f"Name: {self.notes_tab.name_contents.get()}", font = ("Georgia", 14))
+        char_name.grid(row = 2, column = 0, pady = 0, sticky = "n")
+        char_race = tk.Label(left_frame, text = f"Race: {self.notes_tab.race_contents.get()}", font = ("Georgia", 14))
+        char_race.grid(row = 3, column = 0, pady = 0, sticky = "n")
+        char_class = tk.Label(left_frame, text = f"Class: {self.notes_tab.Class_contents.get()}", font = ("Georgia", 14))
+        char_class.grid(row = 4, column = 0, pady = 0, sticky = "n")
+
+
+
 
 
 if __name__ == "__main__":
