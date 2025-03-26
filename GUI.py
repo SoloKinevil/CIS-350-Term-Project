@@ -66,8 +66,8 @@ class Notes_tab(ttk.Frame):
                 "Dragonborn", "Dwarf", "Eladrin", "Elf", "Gnome", "Half-elf",
                 "Half-orc", "Halfling", "Human", "Tiefling"
             ]
-            self.race_contents = StringVar()
-            race_drop = ttk.OptionMenu(self, self.race_contents, *self.race_options)
+            self.race_contents = StringVar(value="Dragonborn")
+            race_drop = tk.OptionMenu(self, self.race_contents, *self.race_options)
             race_drop.grid(row=2, column=2, sticky="w")
 
             # Label for Class
@@ -79,8 +79,9 @@ class Notes_tab(ttk.Frame):
                 "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock",
                 "Wizard", "Mystic"
             ]
-            self.class_contents = StringVar()
-            class_drop = ttk.OptionMenu(self, self.class_contents, *self.class_options)
+            self.class_contents = StringVar(value="Artificer")
+
+            class_drop = tk.OptionMenu(self, self.class_contents, *self.class_options)
             class_drop.grid(row=2, column=3, sticky="w")
 
             # Label for Dex Modifier
@@ -176,7 +177,7 @@ class Notes_tab(ttk.Frame):
                     lines = incoming.readlines()
 
                 # Assign values from the file if they exist
-                if len(lines) >= 5:
+                if len(lines) >= 7:
                     self.name_contents.set(lines[0].strip())
                     self.race_contents.set(lines[1].strip())
                     self.class_contents.set(lines[2].strip())
