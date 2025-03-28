@@ -66,7 +66,7 @@ class GUI(tk.Frame):
 
         # Create main menu button
         back_button = tk.Button(self.settings_frame, text="Back", command=self.show_main)
-        back_button.pack(side="bottom", pady=10)
+        back_button.grid(row=0, column=3)
 
         # Show main menu by default
         self.show_main()
@@ -79,7 +79,7 @@ class GUI(tk.Frame):
         """Method to close the settings and update the character information."""
         new_name = self.settings_frame.name_contents.get()
         new_race = self.settings_frame.race_contents.get()
-        new_class = self.settings_frame.Class_contents.get()
+        new_class = self.settings_frame.class_contents.get()
         self.main.left_frame.char_name.config(text=f"Name: {new_name}")
         self.main.left_frame.char_race.config(text=f"Race: {new_race}")
         self.main.left_frame.char_class.config(text=f"Class: {new_class}")
@@ -99,86 +99,86 @@ class Notes_tab(ttk.Frame):
         for i in range(1, 8):
             self.rowconfigure(i, pad=10)
 
-            # Label for Name
-            self.label = ttk.Label(self, text="Character Name")
-            self.label.grid(row=1, column=1, sticky="w")
-            # Initialize Entry values for Name
-            self.name = tk.Entry(self, width=25)
-            self.name_contents = tk.StringVar()
-            self.name.grid(row=2, column=1, sticky="w")
+        # Label for Name
+        self.label = ttk.Label(self, text="Character Name")
+        self.label.grid(row=1, column=1, sticky="w")
+        # Initialize Entry values for Name
+        self.name = tk.Entry(self, width=25)
+        self.name_contents = tk.StringVar()
+        self.name.grid(row=2, column=1, sticky="w")
 
-            # Label for Race
-            self.label2 = tk.Label(self, text="Race")
-            self.label2.grid(row=1, column=2, sticky="w")
-            # Initialize Entry values for Race
-            self.race_options = [
-                "Dragonborn", "Dwarf", "Eladrin", "Elf", "Gnome", "Half-elf",
-                "Half-orc", "Halfling", "Human", "Tiefling"
-            ]
-            self.race_contents = StringVar(value="Dragonborn")
-            race_drop = tk.OptionMenu(self, self.race_contents, *self.race_options)
-            race_drop.grid(row=2, column=2, sticky="w")
+        # Label for Race
+        self.label2 = tk.Label(self, text="Race")
+        self.label2.grid(row=1, column=2, sticky="w")
+        # Initialize Entry values for Race
+        self.race_options = [
+            "Dragonborn", "Dwarf", "Eladrin", "Elf", "Gnome", "Half-elf",
+            "Half-orc", "Halfling", "Human", "Tiefling"
+        ]
+        self.race_contents = StringVar(value="Dragonborn")
+        race_drop = tk.OptionMenu(self, self.race_contents, *self.race_options)
+        race_drop.grid(row=2, column=2, sticky="w")
 
-            # Label for Class
-            self.label3 = tk.Label(self, text="Class")
-            self.label3.grid(row=1, column=3, sticky="w")
-            # Initialize Entry values for class
-            self.class_options = [
-                "Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter",
-                "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock",
-                "Wizard", "Mystic"
-            ]
-            self.class_contents = StringVar(value="Artificer")
+        # Label for Class
+        self.label3 = tk.Label(self, text="Class")
+        self.label3.grid(row=1, column=3, sticky="w")
+        # Initialize Entry values for class
+        self.class_options = [
+            "Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter",
+            "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock",
+            "Wizard", "Mystic"
+        ]
+        self.class_contents = StringVar(value="Artificer")
 
-            class_drop = tk.OptionMenu(self, self.class_contents, *self.class_options)
-            class_drop.grid(row=2, column=3, sticky="w")
+        class_drop = tk.OptionMenu(self, self.class_contents, *self.class_options)
+        class_drop.grid(row=2, column=3, sticky="w")
 
-            # Label for Dex Modifier
-            self.Dex = ttk.Label(self, text="Dexterity")
-            self.Dex.grid(row=3, column=1, sticky="w")
-            # Initialize Entry values for Dex
-            self.dex = tk.Entry(self, width=10)
-            self.dex_contents = tk.StringVar()
-            self.dex.grid(row=4, column=1, sticky="w")
+        # Label for Dex Modifier
+        self.Dex = ttk.Label(self, text="Dexterity")
+        self.Dex.grid(row=3, column=1, sticky="w")
+        # Initialize Entry values for Dex
+        self.dex = tk.Entry(self, width=10)
+        self.dex_contents = tk.StringVar()
+        self.dex.grid(row=4, column=1, sticky="w")
 
-            # Label for Str Modifier
-            self.Str = ttk.Label(self, text="Strength")
-            self.Str.grid(row=3, column=2, sticky="w")
-            # Initialize Entry values for Dex
-            self.str = tk.Entry(self, width=10)
-            self.str_contents = tk.StringVar()
-            self.str.grid(row=4, column=2, sticky="w")
+        # Label for Str Modifier
+        self.Str = ttk.Label(self, text="Strength")
+        self.Str.grid(row=3, column=2, sticky="w")
+        # Initialize Entry values for Dex
+        self.str = tk.Entry(self, width=10)
+        self.str_contents = tk.StringVar()
+        self.str.grid(row=4, column=2, sticky="w")
 
-            # Label for Int Modifier
-            self.Int = ttk.Label(self, text="Intelligence")
-            self.Int.grid(row=3, column=3, sticky="w")
-            # Initialize Entry values for Dex
-            self.int = tk.Entry(self, width=10)
-            self.int_contents = tk.StringVar()
-            self.int.grid(row=4, column=3, sticky="w")
+        # Label for Int Modifier
+        self.Int = ttk.Label(self, text="Intelligence")
+        self.Int.grid(row=3, column=3, sticky="w")
+        # Initialize Entry values for Dex
+        self.int = tk.Entry(self, width=10)
+        self.int_contents = tk.StringVar()
+        self.int.grid(row=4, column=3, sticky="w")
 
-            # Label for Notes
-            self.label4 = tk.Label(self, text="Notes")
-            self.label4.grid(row=5, column=1, sticky="nw")
-            # Initialize Entry values for NOTES
-            self.notes = tk.Entry(self, width=100)
-            self.note_contents = tk.StringVar()
-            self.notes.grid(row=6, column=1, columnspan=3, sticky="w")
+        # Label for Notes
+        self.label4 = tk.Label(self, text="Notes")
+        self.label4.grid(row=5, column=1, sticky="nw")
+        # Initialize Entry values for NOTES
+        self.notes = tk.Entry(self, width=100)
+        self.note_contents = tk.StringVar()
+        self.notes.grid(row=6, column=1, columnspan=3, sticky="w")
 
-            # Bind text variables to entries
-            self.notes["textvariable"] = self.note_contents
-            self.dex["textvariable"] = self.dex_contents
-            self.str["textvariable"] = self.str_contents
-            self.int["textvariable"] = self.int_contents
-            self.name["textvariable"] = self.name_contents
+        # Bind text variables to entries
+        self.notes["textvariable"] = self.note_contents
+        self.dex["textvariable"] = self.dex_contents
+        self.str["textvariable"] = self.str_contents
+        self.int["textvariable"] = self.int_contents
+        self.name["textvariable"] = self.name_contents
 
-            # Import button
-            open_button = tk.Button(self, text="Import Data", command=self.open_file)
-            open_button.grid(row=8, column=1, sticky="w")
+        # Import button
+        open_button = tk.Button(self, text="Import Data", command=self.open_file)
+        open_button.grid(row=8, column=1, sticky="w")
 
-            # Save button
-            save_button = tk.Button(self, text="Save Data", command=self.save_contents)
-            save_button.grid(row=8, column=3, sticky="w")
+        # Save button
+        save_button = tk.Button(self, text="Save Data", command=self.save_contents)
+        save_button.grid(row=8, column=3, sticky="w")
 
         # Set fields to previously saved values
         if os.path.exists('saved_contents.txt'):
@@ -382,7 +382,7 @@ class MainLeftFrame(tk.Frame):
         self.char_name.grid(row=2, column=0, pady=0, sticky="n")
         self.char_race = tk.Label(self, text=f"Race: {self.notes_tab.race_contents.get()}", font=("Georgia", 14))
         self.char_race.grid(row=3, column=0, pady=0, sticky="n")
-        self.char_class = tk.Label(self, text=f"Class: {self.notes_tab.Class_contents.get()}", font=("Georgia", 14))
+        self.char_class = tk.Label(self, text=f"Class: {self.notes_tab.class_contents.get()}", font=("Georgia", 14))
         self.char_class.grid(row=4, column=0, pady=0, sticky="n")
 
 
