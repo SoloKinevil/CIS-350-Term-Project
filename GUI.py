@@ -136,7 +136,7 @@ class Notes_tab(ttk.Frame):
 
         # Label for Str Modifier
         self.Str = ttk.Label(self, text="Strength")
-        self.Str.grid(row=3, column=1, sticky="nesw")
+        self.Str.grid(row=3, column=1, sticky="w")
         # Initialize Entry values for Str
         self.str = tk.Entry(self, width=10)
         self.str_contents = tk.StringVar()
