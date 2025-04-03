@@ -136,7 +136,7 @@ class Notes_tab(ttk.Frame):
 
         # Label for Str Modifier
         self.Str = ttk.Label(self, text="Strength")
-        self.Str.grid(row=3, column=1, sticky="w")
+        self.Str.grid(row=3, column=1, sticky="nesw")
         # Initialize Entry values for Str
         self.str = tk.Entry(self, width=10)
         self.str_contents = tk.StringVar()
@@ -230,6 +230,7 @@ class Notes_tab(ttk.Frame):
         self.notes = tk.Entry(self, width=100)
         self.note_contents = tk.StringVar()
         self.notes.grid(row=13, column=1, columnspan=3, sticky="w")
+        # Underline
         f = font.Font(self.label5, self.label5.cget("font"))
         f.configure(underline=True)
         self.label5.configure(font=f)
@@ -417,6 +418,10 @@ class MainMiddleFrame(tk.Frame):
         # Title label
         main_label = tk.Label(self, text="Game Log", font=("Georgia", 17), fg="white", bg="black")
         main_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+        # Underline
+        f = font.Font(main_label, main_label.cget("font"))
+        f.configure(underline=True)
+        main_label.configure(font=f)
 
         # Log text box
         self.log_text = tk.Text(self, height=12, width=40, bg="#1E1A2E", fg="white")
@@ -460,6 +465,10 @@ class MainLeftFrame(tk.Frame):
         # Character label
         left_label = tk.Label(self, text="Character", font=("Georgia", 17), fg="white", bg="grey")
         left_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+        # Underline
+        f = font.Font(left_label, left_label.cget("font"))
+        f.configure(underline=True)
+        left_label.configure(font=f)
 
         # Image path for character pfp
         image_path = "blank-pfp.jpg"
@@ -492,10 +501,17 @@ class MainRightFrame(tk.Frame):
         # Set up grid for right frame
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
+        for i in range(1, 6):
+            self.columnconfigure(i, weight=1)
+            self.rowconfigure(i, weight=1)
 
         # Add inventory label
         right_label = tk.Label(self, text="Inventory", font=("Georgia", 17), fg="white", bg="grey")
         right_label.grid(row=0, column=0, pady=5, sticky="n")
+        # Underline
+        f = font.Font(right_label, right_label.cget("font"))
+        f.configure(underline=True)
+        right_label.configure(font=f)
 
 
 
