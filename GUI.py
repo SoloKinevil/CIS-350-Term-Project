@@ -398,7 +398,7 @@ class Main_menu_tab(ttk.Frame):
         self.left_frame.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
 
         # Set up the Inventory frame of the main menu
-        self.right_frame = MainRightFrame(self)
+        self.right_frame = MainRightFrame(self, self.notes_tab)
         self.right_frame.grid(row=0, column=2, padx=5, pady=0, sticky="nsew")
 
 
@@ -495,13 +495,13 @@ class MainLeftFrame(tk.Frame):
 
 
 class MainRightFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, notes_tab):
         super().__init__(parent, bg="grey")
 
+        self.notes_tab = notes_tab
+
         # Set up grid for right frame
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
-        for i in range(1, 6):
+        for i in range(0, 20):
             self.columnconfigure(i, weight=1)
             self.rowconfigure(i, weight=1)
 
@@ -512,6 +512,23 @@ class MainRightFrame(tk.Frame):
         f = font.Font(right_label, right_label.cget("font"))
         f.configure(underline=True)
         right_label.configure(font=f)
+
+        self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
+        self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
+        self.small_potion_button = tk.Button(self, text="Use")
+        self.small_potion_button.grid(row=1, column=1, pady=10, sticky = "nw")
+
+        self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
+        self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
+        self.large_potion_button = tk.Button(self, text="Use")
+        self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
+
+        self.weapon_attack = tk.Label(self, text=f"Equipped Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
+        self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
+        self.weapon_attack_button = tk.Button(self, text="Use")
+        self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
+
+
 
 
 
