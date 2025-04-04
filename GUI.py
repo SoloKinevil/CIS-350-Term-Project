@@ -535,14 +535,14 @@ class MainRightFrame(tk.Frame):
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
 
     def use_small_potion(self):
-        if self.notes_tab.small_contents.get() > 0:
+        if int(self.notes_tab.small_contents.get()) > 0:
             #reduce by one and roll 2d4 +2 to log
             return
         else:
             return "You have no Small Potions!" #To Log
 
     def use_large_potion(self):
-        if self.notes_tab.large_contents.get() > 0:
+        if int(self.notes_tab.large_contents.get()) > 0:
             #reduce by one and roll 4d4 +4 to log
             return
         else:
