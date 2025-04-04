@@ -8,6 +8,7 @@ data as well as specific inventories and notes.
 
 import tkinter as tk
 from tkinter import *
+from tkinter import font
 from tkinter import ttk
 import dice_rolling
 from tkinter import filedialog
@@ -92,11 +93,11 @@ class Notes_tab(ttk.Frame):
         super().__init__(parent)
 
         # Configure grid columns for better spacing
-        for i in range(1, 7):
+        for i in range(1, 5):
             self.columnconfigure(i, weight=1, pad=10)
 
         # Configure grid rows for spacing
-        for i in range(1, 8):
+        for i in range(1, 14):
             self.rowconfigure(i, pad=10)
 
         # Label for Name
@@ -133,66 +134,147 @@ class Notes_tab(ttk.Frame):
         class_drop = tk.OptionMenu(self, self.class_contents, *self.class_options)
         class_drop.grid(row=2, column=3, sticky="w")
 
+        # Label for Str Modifier
+        self.Str = ttk.Label(self, text="Strength")
+        self.Str.grid(row=3, column=1, sticky="w")
+        # Initialize Entry values for Str
+        self.str = tk.Entry(self, width=10)
+        self.str_contents = tk.StringVar()
+        self.str.grid(row=4, column=1, sticky="w")
+
         # Label for Dex Modifier
         self.Dex = ttk.Label(self, text="Dexterity")
-        self.Dex.grid(row=3, column=1, sticky="w")
+        self.Dex.grid(row=3, column=2, sticky="w")
         # Initialize Entry values for Dex
         self.dex = tk.Entry(self, width=10)
         self.dex_contents = tk.StringVar()
-        self.dex.grid(row=4, column=1, sticky="w")
+        self.dex.grid(row=4, column=2, sticky="w")
 
-        # Label for Str Modifier
-        self.Str = ttk.Label(self, text="Strength")
-        self.Str.grid(row=3, column=2, sticky="w")
-        # Initialize Entry values for Dex
-        self.str = tk.Entry(self, width=10)
-        self.str_contents = tk.StringVar()
-        self.str.grid(row=4, column=2, sticky="w")
+        # Label for Con Modifier
+        self.Con = ttk.Label(self, text="Constitution")
+        self.Con.grid(row=3, column=3, sticky="w")
+        # Initialize Entry values for Con
+        self.con = tk.Entry(self, width=10)
+        self.con_contents = tk.StringVar()
+        self.con.grid(row=4, column=3, sticky="w")
 
         # Label for Int Modifier
         self.Int = ttk.Label(self, text="Intelligence")
-        self.Int.grid(row=3, column=3, sticky="w")
-        # Initialize Entry values for Dex
+        self.Int.grid(row=5, column=1, sticky="w")
+        # Initialize Entry values for Int
         self.int = tk.Entry(self, width=10)
         self.int_contents = tk.StringVar()
-        self.int.grid(row=4, column=3, sticky="w")
+        self.int.grid(row=6, column=1, sticky="w")
+
+        # Label for Wis Modifier
+        self.Wis = ttk.Label(self, text="Wisdom")
+        self.Wis.grid(row=5, column=2, sticky="w")
+        # Initialize Entry values for Wis
+        self.wis = tk.Entry(self, width=10)
+        self.wis_contents = tk.StringVar()
+        self.wis.grid(row=6, column=2, sticky="w")
+
+        # Label for Cha Modifier
+        self.Cha = ttk.Label(self, text="Charisma")
+        self.Cha.grid(row=5, column=3, sticky="w")
+        # Initialize Entry values for Cha
+        self.cha = tk.Entry(self, width=10)
+        self.cha_contents = tk.StringVar()
+        self.cha.grid(row=6, column=3, sticky="w")
+
+        # Label for Inventory
+        self.label4 = tk.Label(self, text="Inventory", underline=True)
+        self.label4.grid(row=7, column=2, sticky="nw")
+        # Add Underline
+        f = font.Font(self.label4, self.label4.cget("font"))
+        f.configure(underline=True)
+        self.label4.configure(font=f)
+
+        # Label for small potion
+        self.Small = ttk.Label(self, text="Small Potions")
+        self.Small.grid(row=8, column=1, sticky="w")
+        # Initialize Entry values for large potion
+        self.small = tk.Entry(self, width=10)
+        self.small_contents = tk.StringVar()
+        self.small.grid(row=9, column=1, sticky="w")
+
+        # Label for large potion
+        self.Large = ttk.Label(self, text="Large Potions")
+        self.Large.grid(row=8, column=2, sticky="w")
+        # Initialize Entry values for large potion
+        self.large = tk.Entry(self, width=10)
+        self.large_contents = tk.StringVar()
+        self.large.grid(row=9, column=2, sticky="w")
+
+        # Label for Equipped Weapon
+        self.label6 = tk.Label(self, text="Equipped Weapon")
+        self.label6.grid(row=8, column=3, sticky="w")
+        # Initialize Entry values for Equipped Weapon
+        self.weapon_options = {
+            "Dagger": "1d4", "Handaxe": "1d6", "Mace": "1d6", "Quarterstaff": "1d6",
+            "Spear": "1d6", "Battleaxe": "1d8", "Greataxe": "1d12", "Greatsword": "2d6",
+            "Longsword": "1d8", "Rapier": "1d8", "Scimitar": "1d6", "Shortsword": "1d6",
+            "Warhammer": "1d8", "Whip": "1d4", "Hand Crossbow": "1d6", "Heavy Crossbow": "1d10",
+            "Longbow": "1d8", "Shortbow": "1d6"
+        }
+        self.weapon_contents = StringVar(value="Dagger")
+
+        weapon_drop = tk.OptionMenu(self, self.weapon_contents, *self.weapon_options)
+        weapon_drop.grid(row=9, column=3, sticky="w")
+
 
         # Label for Notes
-        self.label4 = tk.Label(self, text="Notes")
-        self.label4.grid(row=5, column=1, sticky="nw")
+        self.label5 = tk.Label(self, text="Notes")
+        self.label5.grid(row=12, column=2, sticky="nw")
         # Initialize Entry values for NOTES
         self.notes = tk.Entry(self, width=100)
         self.note_contents = tk.StringVar()
-        self.notes.grid(row=6, column=1, columnspan=3, sticky="w")
+        self.notes.grid(row=13, column=1, columnspan=3, sticky="w")
+        # Underline
+        f = font.Font(self.label5, self.label5.cget("font"))
+        f.configure(underline=True)
+        self.label5.configure(font=f)
+
+
+        # Import button
+        open_button = tk.Button(self, text="Import Data", command=self.open_file)
+        open_button.grid(row=14, column=1, sticky="w")
+
+        # Save button
+        save_button = tk.Button(self, text="Save Data", command=self.save_contents)
+        save_button.grid(row=14, column=3, sticky="w")
 
         # Bind text variables to entries
         self.notes["textvariable"] = self.note_contents
         self.dex["textvariable"] = self.dex_contents
         self.str["textvariable"] = self.str_contents
         self.int["textvariable"] = self.int_contents
+        self.cha["textvariable"] = self.cha_contents
+        self.con["textvariable"] = self.con_contents
+        self.wis["textvariable"] = self.wis_contents
+        self.small["textvariable"] = self.small_contents
+        self.large["textvariable"] = self.large_contents
         self.name["textvariable"] = self.name_contents
-
-        # Import button
-        open_button = tk.Button(self, text="Import Data", command=self.open_file)
-        open_button.grid(row=8, column=1, sticky="w")
-
-        # Save button
-        save_button = tk.Button(self, text="Save Data", command=self.save_contents)
-        save_button.grid(row=8, column=3, sticky="w")
 
         # Set fields to previously saved values
         if os.path.exists('saved_contents.txt'):
             with open('saved_contents.txt', 'r') as incoming:
                 lines = incoming.readlines()
 
-            if len(lines) >= 7:
+            if len(lines) >= 13:
                 self.name_contents.set(lines[0].strip())
                 self.race_contents.set(lines[1].strip())
                 self.class_contents.set(lines[2].strip())
-                self.dex_contents.set(lines[3].strip())
-                self.str_contents.set(lines[4].strip())
-                self.int_contents.set(lines[5].strip())
-                self.note_contents.set(lines[6].strip())
+                self.str_contents.set(lines[3].strip())
+                self.dex_contents.set(lines[4].strip())
+                self.con_contents.set(lines[5].strip())
+                self.int_contents.set(lines[6].strip())
+                self.wis_contents.set(lines[7].strip())
+                self.cha_contents.set(lines[8].strip())
+                self.small_contents.set(lines[9].strip())
+                self.large_contents.set(lines[10].strip())
+                self.weapon_contents.set(lines[11].strip())
+                self.note_contents.set(lines[12].strip())
 
     # This function saves the users stored information to a file of their choice "Export"
     def save_contents(self, *args):
@@ -201,17 +283,29 @@ class Notes_tab(ttk.Frame):
             f.write(self.name_contents.get() + "\n")
             f.write(self.race_contents.get() + "\n")
             f.write(self.class_contents.get() + "\n")
-            f.write(self.dex_contents.get() + "\n")
             f.write(self.str_contents.get() + "\n")
+            f.write(self.dex_contents.get() + "\n")
+            f.write(self.con_contents.get() + "\n")
             f.write(self.int_contents.get() + "\n")
+            f.write(self.wis_contents.get() + "\n")
+            f.write(self.cha_contents.get() + "\n")
+            f.write(self.small_contents.get() + "\n")
+            f.write(self.large_contents.get() + "\n")
+            f.write(self.weapon_contents.get() + "\n")
             f.write(self.note_contents.get() + "\n")
         with open('saved_contents.txt', 'w') as f:
             f.write(self.name_contents.get() + "\n")
             f.write(self.race_contents.get() + "\n")
             f.write(self.class_contents.get() + "\n")
-            f.write(self.dex_contents.get() + "\n")
             f.write(self.str_contents.get() + "\n")
+            f.write(self.dex_contents.get() + "\n")
+            f.write(self.con_contents.get() + "\n")
             f.write(self.int_contents.get() + "\n")
+            f.write(self.wis_contents.get() + "\n")
+            f.write(self.cha_contents.get() + "\n")
+            f.write(self.small_contents.get() + "\n")
+            f.write(self.large_contents.get() + "\n")
+            f.write(self.weapon_contents.get() + "\n")
             f.write(self.note_contents.get() + "\n")
 
     # Allows user to upload text document to input into application
@@ -226,14 +320,20 @@ class Notes_tab(ttk.Frame):
                     lines = incoming.readlines()
 
                 # Assign values from the file if they exist
-                if len(lines) >= 7:
+                if len(lines) >= 13:
                     self.name_contents.set(lines[0].strip())
                     self.race_contents.set(lines[1].strip())
                     self.class_contents.set(lines[2].strip())
-                    self.dex_contents.set(lines[3].strip())
-                    self.str_contents.set(lines[4].strip())
-                    self.int_contents.set(lines[5].strip())
-                    self.note_contents.set(lines[6].strip())
+                    self.str_contents.set(lines[3].strip())
+                    self.dex_contents.set(lines[4].strip())
+                    self.con_contents.set(lines[5].strip())
+                    self.int_contents.set(lines[6].strip())
+                    self.wis_contents.set(lines[7].strip())
+                    self.cha_contents.set(lines[8].strip())
+                    self.small_contents.set(lines[9].strip())
+                    self.large_contents.set(lines[10].strip())
+                    self.weapon_contents.set(lines[11].strip())
+                    self.note_contents.set(lines[12].strip())
                 else:
                     print("Error: File does not contain enough data.")
                 return
@@ -298,7 +398,7 @@ class Main_menu_tab(ttk.Frame):
         self.left_frame.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
 
         # Set up the Inventory frame of the main menu
-        self.right_frame = MainRightFrame(self)
+        self.right_frame = MainRightFrame(self, self.notes_tab)
         self.right_frame.grid(row=0, column=2, padx=5, pady=0, sticky="nsew")
 
 
@@ -318,6 +418,10 @@ class MainMiddleFrame(tk.Frame):
         # Title label
         main_label = tk.Label(self, text="Game Log", font=("Georgia", 17), fg="white", bg="black")
         main_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+        # Underline
+        f = font.Font(main_label, main_label.cget("font"))
+        f.configure(underline=True)
+        main_label.configure(font=f)
 
         # Log text box
         self.log_text = tk.Text(self, height=12, width=40, bg="#1E1A2E", fg="white")
@@ -361,6 +465,10 @@ class MainLeftFrame(tk.Frame):
         # Character label
         left_label = tk.Label(self, text="Character", font=("Georgia", 17), fg="white", bg="grey")
         left_label.grid(row=0, column=0, pady=0, padx=5, sticky="n")
+        # Underline
+        f = font.Font(left_label, left_label.cget("font"))
+        f.configure(underline=True)
+        left_label.configure(font=f)
 
         # Image path for character pfp
         image_path = "blank-pfp.jpg"
@@ -387,16 +495,40 @@ class MainLeftFrame(tk.Frame):
 
 
 class MainRightFrame(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, notes_tab):
         super().__init__(parent, bg="grey")
 
+        self.notes_tab = notes_tab
+
         # Set up grid for right frame
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
+        for i in range(0, 20):
+            self.columnconfigure(i, weight=1)
+            self.rowconfigure(i, weight=1)
 
         # Add inventory label
         right_label = tk.Label(self, text="Inventory", font=("Georgia", 17), fg="white", bg="grey")
         right_label.grid(row=0, column=0, pady=5, sticky="n")
+        # Underline
+        f = font.Font(right_label, right_label.cget("font"))
+        f.configure(underline=True)
+        right_label.configure(font=f)
+
+        self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
+        self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
+        self.small_potion_button = tk.Button(self, text="Use")
+        self.small_potion_button.grid(row=1, column=1, pady=10, sticky = "nw")
+
+        self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
+        self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
+        self.large_potion_button = tk.Button(self, text="Use")
+        self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
+
+        self.weapon_attack = tk.Label(self, text=f"Equipped Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
+        self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
+        self.weapon_attack_button = tk.Button(self, text="Use")
+        self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
+
+
 
 
 
