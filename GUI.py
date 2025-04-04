@@ -84,6 +84,12 @@ class GUI(tk.Frame):
         self.main.left_frame.char_name.config(text=f"Name: {new_name}")
         self.main.left_frame.char_race.config(text=f"Race: {new_race}")
         self.main.left_frame.char_class.config(text=f"Class: {new_class}")
+        small = self.settings_frame.small_contents.get()
+        large = self.settings_frame.large_contents.get()
+        weapon = self.settings_frame.weapon_contents.get()
+        self.main.right_frame.small_potion.config(text=f"Small Potions: {small}")
+        self.main.right_frame.large_potion.config(text=f"Large Potions: {large}")
+        self.main.right_frame.weapon_attack.config(text=f"Weapon: {weapon}")
         self.notebook_frame.tkraise()
 
 
@@ -523,7 +529,7 @@ class MainRightFrame(tk.Frame):
         self.large_potion_button = tk.Button(self, text="Use")
         self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
 
-        self.weapon_attack = tk.Label(self, text=f"Equipped Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
+        self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
         self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
         self.weapon_attack_button = tk.Button(self, text="Use")
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")

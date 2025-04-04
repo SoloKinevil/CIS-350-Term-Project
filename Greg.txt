@@ -1,5 +1,13 @@
 Greg
-Elf
-Druid
-30
-Hello
+Eladrin
+Barbarian
+10
+18
+15
+14
+12
+20
+2
+3
+Whip
+He like music

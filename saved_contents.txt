@@ -1,6 +1,6 @@
 Greg
-Elf
-Bard
+Eladrin
+Barbarian
 10
 18
 15
@@ -9,5 +9,5 @@ Bard
 20
 2
 3
-Quarterstaff
+Whip
 He like music
