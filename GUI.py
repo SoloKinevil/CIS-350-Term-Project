@@ -521,18 +521,39 @@ class MainRightFrame(tk.Frame):
 
         self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
         self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
-        self.small_potion_button = tk.Button(self, text="Use")
+        self.small_potion_button = tk.Button(self, text="Use", command = self.use_small_potion())
         self.small_potion_button.grid(row=1, column=1, pady=10, sticky = "nw")
 
         self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
         self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
-        self.large_potion_button = tk.Button(self, text="Use")
+        self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion())
         self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
 
         self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
         self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
-        self.weapon_attack_button = tk.Button(self, text="Use")
+        self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon())
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
+
+    def use_small_potion(self):
+        if self.notes_tab.small_contents.get() > 0:
+            #reduce by one and roll 2d4 +2 to log
+            return
+        else:
+            return "You have no Small Potions!" #To Log
+
+    def use_large_potion(self):
+        if self.notes_tab.large_contents.get() > 0:
+            #reduce by one and roll 4d4 +4 to log
+            return
+        else:
+            return "You have no Large Potions!" #To Log
+
+    def use_weapon(self):
+        if self.notes_tab.weapon_contents.get():
+            # Use second dict value to roll corresponding dice num and sides
+            return
+        else:
+            return "You have no Weapons!" #to log
 
 
 
