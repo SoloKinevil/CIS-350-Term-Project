@@ -16,6 +16,7 @@ import os
 import unittest
 from PIL import Image, ImageTk
 
+
 class GUI(tk.Frame):
     # Constructor for user GUI and format
     def __init__(self, master):
@@ -47,7 +48,7 @@ class GUI(tk.Frame):
         # Add tabs to the notebook
         self.main = Main_menu_tab(self.notebook, self.settings_frame, self.dice_roll)
         self.notebook.add(self.main, text="Main Menu")
-        dice_roll_tab = Dice_roll_tab(self.notebook)
+
 
         # Set image path
         image_path = "ClassImages/settings_icon.png"
@@ -233,7 +234,6 @@ class Notes_tab(ttk.Frame):
         weapon_drop = tk.OptionMenu(self, self.weapon_contents, *self.weapon_options)
         weapon_drop.grid(row=9, column=3, sticky="w")
 
-
         # Label for Notes
         self.label5 = tk.Label(self, text="Notes")
         self.label5.grid(row=12, column=2, sticky="nw")
@@ -245,7 +245,6 @@ class Notes_tab(ttk.Frame):
         f = font.Font(self.label5, self.label5.cget("font"))
         f.configure(underline=True)
         self.label5.configure(font=f)
-
 
         # Import button
         open_button = tk.Button(self, text="Import Data", command=self.open_file)
@@ -288,7 +287,7 @@ class Notes_tab(ttk.Frame):
                 self.note_contents.set(lines[12].strip())
 
     # This function saves the users stored information to a file of their choice "Export"
-    def save_contents(self, *args):
+    def save_contents(self):
         filepath = filedialog.asksaveasfilename()
         with open(filepath, 'w') as f:
             f.write(self.name_contents.get() + "\n")
@@ -378,10 +377,10 @@ class Dice_roll_tab(ttk.Frame):
 
     def roll_dice(self):
         result = self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)
-        self.label2.config(text=f"Roll: {result}") # Is this needed anymore?
+        self.label2.config(text=f"Roll: {result}")  # Is this needed anymore?
 
     def set_sides(self):
-        string_sides=self.sides1.get()
+        string_sides = self.sides1.get()
         self.dice_roller.set_sides(int(string_sides))
 
 
@@ -415,7 +414,7 @@ class Main_menu_tab(ttk.Frame):
 
 class MainMiddleFrame(tk.Frame):
     def __init__(self, parent, notes_tab, dice_roll):
-        super().__init__(parent, bg = "black")
+        super().__init__(parent, bg="black")
 
         self.notes_tab = notes_tab
         self.dice_roll = dice_roll
@@ -578,14 +577,26 @@ class MainRightFrame(tk.Frame):
 
     def use_small_potion(self):
         if int(self.notes_tab.small_contents.get()) > 0:
-            #reduce by one and roll 2d4 +2 to log
+            # Reduce by one and roll 2d4 +2 to log
+            self.notes_tab.small_contents -= 1
+
+            # ROLL
+
+            # Update Count
+            GUI.show_main()
             return
         else:
             return "You have no Small Potions!" #To Log
 
     def use_large_potion(self):
         if int(self.notes_tab.large_contents.get()) > 0:
-            #reduce by one and roll 4d4 +4 to log
+            # Reduce by one and roll 4d4 +4 to log
+            self.notes_tab.large_contents -= 1
+
+            # ROLL
+
+            # Update count
+            GUI.show_main()
             return
         else:
             return "You have no Large Potions!" #To Log
