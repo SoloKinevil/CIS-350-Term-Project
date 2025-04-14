@@ -78,21 +78,20 @@ class GUI(tk.Frame):
 
     def show_main(self):
         """Method to close the settings and update the character information."""
-        new_name = self.settings_frame.name_contents.get()
-        new_race = self.settings_frame.race_contents.get()
-        new_class = self.settings_frame.class_contents.get()
+        self.main.left_frame.char_name.config(text=f"Name: {self.settings_frame.name_contents.get()}")
+        self.main.left_frame.char_race.config(text=f"Race: {self.settings_frame.race_contents.get()}")
+        self.main.left_frame.char_class.config(text=f"Class: {self.settings_frame.class_contents.get()}")
 
-        self.main.left_frame.char_name.config(text=f"Name: {new_name}")
-        self.main.left_frame.char_race.config(text=f"Race: {new_race}")
-        self.main.left_frame.char_class.config(text=f"Class: {new_class}")
+        self.main.right_frame.small_potion.config(text=f"Small Potions: {self.settings_frame.small_contents.get()}")
+        self.main.right_frame.large_potion.config(text=f"Large Potions: {self.settings_frame.large_contents.get()}")
+        self.main.right_frame.weapon_attack.config(text=f"Weapon: {self.settings_frame.weapon_contents.get()}")
 
-        small = self.settings_frame.small_contents.get()
-        large = self.settings_frame.large_contents.get()
-        weapon = self.settings_frame.weapon_contents.get()
-
-        self.main.right_frame.small_potion.config(text=f"Small Potions: {small}")
-        self.main.right_frame.large_potion.config(text=f"Large Potions: {large}")
-        self.main.right_frame.weapon_attack.config(text=f"Weapon: {weapon}")
+        self.main.right_frame.strength_label.config(text=f"Strength: {self.settings_frame.str_contents.get()}")
+        self.main.right_frame.dexterity_label.config(text=f"Dexterity: {self.settings_frame.dex_contents.get()}")
+        self.main.right_frame.con_label.config(text=f"Constitution: {self.settings_frame.con_contents.get()}")
+        self.main.right_frame.int_label.config(text=f"Intelligence: {self.settings_frame.int_contents.get()}")
+        self.main.right_frame.wis_label.config(text=f"Wisdom: {self.settings_frame.wis_contents.get()}")
+        self.main.right_frame.char_label.config(text=f"Charisma: {self.settings_frame.cha_contents.get()}")
 
         self.main.left_frame.update_image()
 
@@ -545,10 +544,37 @@ class MainRightFrame(tk.Frame):
         self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion())
         self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
 
-        self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 10))
+        self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 12))
         self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
         self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon())
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
+
+        # Add Stats label
+        stats_label = tk.Label(self, text="Stats", font=("Georgia", 17), fg="white", bg="grey")
+        stats_label.grid(row=4, column=0, pady=5, sticky="nw")
+        # Underline
+        g = font.Font(stats_label, stats_label.cget("font"))
+        g.configure(underline=True)
+        stats_label.configure(font=g)
+
+        self.strength_label = tk.Label(self, text=f"Strength: {self.notes_tab.str_contents.get()}",font=("Georgia", 12))
+        self.strength_label.grid(row=5, column=0, pady=10, sticky="nw")
+
+        self.dexterity_label = tk.Label(self, text=f"Dexterity: {self.notes_tab.dex_contents.get()}",font=("Georgia", 12))
+        self.dexterity_label.grid(row=6, column=0, pady=10, sticky="nw")
+
+        self.con_label = tk.Label(self, text=f"Constitution: {self.notes_tab.con_contents.get()}",font=("Georgia", 12))
+        self.con_label.grid(row=7, column=0, pady=10, sticky="nw")
+
+        self.int_label = tk.Label(self, text=f"Intelligence: {self.notes_tab.int_contents.get()}",font=("Georgia", 12))
+        self.int_label.grid(row=8, column=0, pady=10, sticky="nw")
+
+        self.wis_label = tk.Label(self, text=f"Wisdom: {self.notes_tab.wis_contents.get()}",font=("Georgia", 12))
+        self.wis_label.grid(row=9, column=0, pady=10, sticky="nw")
+
+        self.char_label = tk.Label(self, text=f"Charisma: {self.notes_tab.cha_contents.get()}",font=("Georgia", 12))
+        self.char_label.grid(row=10, column=0, pady=10, sticky="nw")
+
 
     def use_small_potion(self):
         if int(self.notes_tab.small_contents.get()) > 0:
