@@ -50,7 +50,7 @@ class GUI(tk.Frame):
         dice_roll_tab = Dice_roll_tab(self.notebook)
 
         # Set image path
-        image_path = "settings_icon.png"
+        image_path = "ClassImages/settings_icon.png"
 
         try:
             # Open image file correctly
@@ -81,15 +81,21 @@ class GUI(tk.Frame):
         new_name = self.settings_frame.name_contents.get()
         new_race = self.settings_frame.race_contents.get()
         new_class = self.settings_frame.class_contents.get()
+
         self.main.left_frame.char_name.config(text=f"Name: {new_name}")
         self.main.left_frame.char_race.config(text=f"Race: {new_race}")
         self.main.left_frame.char_class.config(text=f"Class: {new_class}")
+
         small = self.settings_frame.small_contents.get()
         large = self.settings_frame.large_contents.get()
         weapon = self.settings_frame.weapon_contents.get()
+
         self.main.right_frame.small_potion.config(text=f"Small Potions: {small}")
         self.main.right_frame.large_potion.config(text=f"Large Potions: {large}")
         self.main.right_frame.weapon_attack.config(text=f"Weapon: {weapon}")
+
+        self.main.left_frame.update_image()
+
         self.notebook_frame.tkraise()
 
 
@@ -131,11 +137,11 @@ class Notes_tab(ttk.Frame):
         self.label3.grid(row=1, column=3, sticky="w")
         # Initialize Entry values for class
         self.class_options = [
-            "Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter",
+            "Barbarian", "Bard", "Cleric", "Druid", "Fighter",
             "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock",
-            "Wizard", "Mystic"
+            "Wizard"
         ]
-        self.class_contents = StringVar(value="Artificer")
+        self.class_contents = StringVar(value="Barbarian")
 
         class_drop = tk.OptionMenu(self, self.class_contents, *self.class_options)
         class_drop.grid(row=2, column=3, sticky="w")
@@ -476,20 +482,12 @@ class MainLeftFrame(tk.Frame):
         f.configure(underline=True)
         left_label.configure(font=f)
 
+        # Load image for init
+        self.image_label = tk.Label(self, bg="black")
+        self.image_label.grid(row=1, column=0, pady=0, sticky="n")
+
         # Image path for character pfp
-        image_path = "blank-pfp.jpg"
-
-        try:
-            image = Image.open(image_path).convert("RGB")  # Convert to avoid transparency issues
-            image = image.resize((180, 180), Image.Resampling.LANCZOS)  # Resize
-            self.image_tk = ImageTk.PhotoImage(image)
-        except Exception:
-            self.image_tk = None  # Prevent crash if file is missing
-
-        # Display image in a label
-        if self.image_tk:
-            image_label = tk.Label(self, image=self.image_tk, bg="black")
-            image_label.grid(row=1, column=0, pady=0, sticky="n")
+        self.update_image()
 
         # Character info labels
         self.char_name = tk.Label(self, text=f"Name: {self.notes_tab.name_contents.get()}", font=("Georgia", 14))
@@ -498,6 +496,24 @@ class MainLeftFrame(tk.Frame):
         self.char_race.grid(row=3, column=0, pady=0, sticky="n")
         self.char_class = tk.Label(self, text=f"Class: {self.notes_tab.class_contents.get()}", font=("Georgia", 14))
         self.char_class.grid(row=4, column=0, pady=0, sticky="n")
+
+    def update_image(self):
+        import os
+        from PIL import Image, ImageTk
+        # Image path for character pfp
+        self.image_path = f"ClassImages/{self.notes_tab.class_contents.get()}.png"
+        if not os.path.exists(self.image_path):
+            self.image_path = f"ClassImages/blank-pfp.jpg"
+
+        try:
+            image = Image.open(self.image_path).convert("RGB")  # Convert to avoid transparency issues
+            image = image.resize((210, 300), Image.Resampling.LANCZOS)  # Resize
+            self.image_tk = ImageTk.PhotoImage(image)
+            self.image_label.config(image=self.image_tk)
+            self.image_label.image = self.image_tk
+        except Exception:
+            self.image_label.config(image="")  # Prevent crash if file is missing
+
 
 
 class MainRightFrame(tk.Frame):
