@@ -83,6 +83,13 @@ class GUI(tk.Frame):
         self.main.left_frame.char_name.config(text=f"Name: {new_name}")
         self.main.left_frame.char_race.config(text=f"Race: {new_race}")
         self.main.left_frame.char_class.config(text=f"Class: {new_class}")
+        self.main.left_frame.char_dex.config(text=f"Dexterity: {self.settings_frame.dex_contents.get()}")
+        self.main.left_frame.char_str.config(text=f"Strength: {self.settings_frame.str_contents.get()}")
+        self.main.left_frame.char_int.config(text=f"Intelligence: {self.settings_frame.int_contents.get()}")
+        if len(self.settings_frame.note_contents.get()) > 20:
+            self.main.left_frame.char_notes.config(text=f"Notes: {self.settings_frame.note_contents.get()[:20]}...")
+        else:
+            self.main.left_frame.char_notes.config(text=f"Notes: {self.settings_frame.note_contents.get()}")
         self.notebook_frame.tkraise()
 
 
@@ -356,7 +363,11 @@ class MainLeftFrame(tk.Frame):
         self.rowconfigure(2, weight=5)
         self.rowconfigure(3, weight=5)
         self.rowconfigure(4, weight=5)
-        self.rowconfigure(5, weight=40)
+        self.rowconfigure(5, weight=5)
+        self.rowconfigure(6, weight=5)
+        self.rowconfigure(7, weight=5)
+        self.rowconfigure(8, weight=5)
+        self.rowconfigure(9, weight=20)
 
         # Character label
         left_label = tk.Label(self, text="Character", font=("Georgia", 17), fg="white", bg="grey")
@@ -375,7 +386,7 @@ class MainLeftFrame(tk.Frame):
         # Display image in a label
         if self.image_tk:
             image_label = tk.Label(self, image=self.image_tk, bg="black")
-            image_label.grid(row=1, column=0, pady=0, sticky="n")
+            image_label.grid(row=1, column=0, pady=5, sticky="n")
 
         # Character info labels
         self.char_name = tk.Label(self, text=f"Name: {self.notes_tab.name_contents.get()}", font=("Georgia", 14))
@@ -384,6 +395,14 @@ class MainLeftFrame(tk.Frame):
         self.char_race.grid(row=3, column=0, pady=0, sticky="n")
         self.char_class = tk.Label(self, text=f"Class: {self.notes_tab.class_contents.get()}", font=("Georgia", 14))
         self.char_class.grid(row=4, column=0, pady=0, sticky="n")
+        self.char_dex = tk.Label(self, text=f"Dexterity: {self.notes_tab.dex_contents.get()}", font=("Georgia", 14))
+        self.char_dex.grid(row=5, column=0, pady=0, sticky="n")
+        self.char_str = tk.Label(self, text=f"Strength: {self.notes_tab.str_contents.get()}", font=("Georgia", 14))
+        self.char_str.grid(row=6, column=0, pady=0, sticky="n")
+        self.char_int = tk.Label(self, text=f"Intelligence: {self.notes_tab.int_contents.get()}", font=("Georgia", 14))
+        self.char_int.grid(row=7, column=0, pady=0, sticky="n")
+        self.char_notes = tk.Label(self, text=f"Notes: {self.notes_tab.note_contents.get()}", font=("Georgia", 14))
+        self.char_notes.grid(row=8, column=0, pady=0, sticky="n")
 
 
 class MainRightFrame(tk.Frame):
