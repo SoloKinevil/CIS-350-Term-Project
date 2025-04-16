@@ -578,12 +578,12 @@ class MainRightFrame(tk.Frame):
     def use_small_potion(self):
         if int(self.notes_tab.small_contents.get()) > 0:
             # Reduce by one and roll 2d4 +2 to log
-            self.notes_tab.small_contents -= 1
+            # self.notes_tab.small_contents -= 1
 
             # ROLL
 
             # Update Count
-            GUI.show_main()
+
             return
         else:
             return "You have no Small Potions!" #To Log
@@ -591,12 +591,12 @@ class MainRightFrame(tk.Frame):
     def use_large_potion(self):
         if int(self.notes_tab.large_contents.get()) > 0:
             # Reduce by one and roll 4d4 +4 to log
-            self.notes_tab.large_contents -= 1
+            # self.notes_tab.large_contents -= 1
 
             # ROLL
 
             # Update count
-            GUI.show_main()
+            
             return
         else:
             return "You have no Large Potions!" #To Log
