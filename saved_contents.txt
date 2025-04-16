@@ -1,7 +1,13 @@
-Jeoff
-Tiefling
-Cleric
-20
+Greg
+Eladrin
+Barbarian
 10
 18
-Small but smart
+15
+14
+12
+20
+2
+3
+Whip
+He like music
