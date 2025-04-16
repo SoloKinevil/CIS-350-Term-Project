@@ -266,6 +266,7 @@ class Notes_tab(ttk.Frame):
         self.large["textvariable"] = self.large_contents
         self.name["textvariable"] = self.name_contents
 
+
         # Set fields to previously saved values
         if os.path.exists('saved_contents.txt'):
             with open('saved_contents.txt', 'r') as incoming:
@@ -535,17 +536,17 @@ class MainRightFrame(tk.Frame):
 
         self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
         self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
-        self.small_potion_button = tk.Button(self, text="Use", command = self.use_small_potion())
+        self.small_potion_button = tk.Button(self, text="Use", command = self.use_small_potion)
         self.small_potion_button.grid(row=1, column=1, pady=10, sticky = "nw")
 
         self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
         self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
-        self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion())
+        self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion)
         self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
 
         self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 12))
         self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
-        self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon())
+        self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon)
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
 
         # Add Stats label
@@ -578,12 +579,13 @@ class MainRightFrame(tk.Frame):
     def use_small_potion(self):
         if int(self.notes_tab.small_contents.get()) > 0:
             # Reduce by one and roll 2d4 +2 to log
-            # self.notes_tab.small_contents -= 1
-
+            current = int(self.notes_tab.small_contents.get())
+            self.notes_tab.small_contents.set(str(current - 1))
             # ROLL
 
             # Update Count
-
+            self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
+            self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
             return
         else:
             return "You have no Small Potions!" #To Log
@@ -591,12 +593,14 @@ class MainRightFrame(tk.Frame):
     def use_large_potion(self):
         if int(self.notes_tab.large_contents.get()) > 0:
             # Reduce by one and roll 4d4 +4 to log
-            # self.notes_tab.large_contents -= 1
+            current = int(self.notes_tab.large_contents.get())
+            self.notes_tab.large_contents.set(str(current - 1))
 
             # ROLL
 
             # Update count
-            
+            self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
+            self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
             return
         else:
             return "You have no Large Potions!" #To Log
