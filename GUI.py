@@ -631,6 +631,11 @@ class MainRightFrame(tk.Frame):
     def use_weapon(self):
         if self.notes_tab.weapon_contents.get():
             # Use second dict value to roll corresponding dice num and sides
+            weapon = self.notes_tab.weapon_contents.get()
+            weapon_dice = self.notes_tab.weapon_options[weapon]
+            self.dice_roller.set_dice(int(weapon_dice[0]))
+            self.dice_roller.set_sides(int(weapon_dice[2]))
+            self.middle_frame.log_text.insert("end", f"{weapon} dealt {self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides)} damage\n")
             return
         else:
             return "You have no Weapons!" #to log
