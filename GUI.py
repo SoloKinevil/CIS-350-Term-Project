@@ -584,7 +584,6 @@ class MainRightFrame(tk.Frame):
         if int(self.notes_tab.small_contents.get()) > 0:
             # Reduce by one and roll 2d4 +2 to log
             current = int(self.notes_tab.small_contents.get())
-            self.notes_tab.small_contents.set(str(current - 1))
             # ROLL
 
             # Update Count
@@ -609,7 +608,6 @@ class MainRightFrame(tk.Frame):
         if int(self.notes_tab.large_contents.get()) > 0:
             # Reduce by one and roll 4d4 +4 to log
             current = int(self.notes_tab.large_contents.get())
-            self.notes_tab.large_contents.set(str(current - 1))
 
             # ROLL
 
