@@ -266,6 +266,7 @@ class Notes_tab(ttk.Frame):
         self.large["textvariable"] = self.large_contents
         self.name["textvariable"] = self.name_contents
 
+
         # Set fields to previously saved values
         if os.path.exists('saved_contents.txt'):
             with open('saved_contents.txt', 'r') as incoming:
@@ -582,8 +583,8 @@ class MainRightFrame(tk.Frame):
     def use_small_potion(self):
         if int(self.notes_tab.small_contents.get()) > 0:
             # Reduce by one and roll 2d4 +2 to log
-            # self.notes_tab.small_contents -= 1
-
+            current = int(self.notes_tab.small_contents.get())
+            self.notes_tab.small_contents.set(str(current - 1))
             # ROLL
 
             # Update Count
@@ -597,6 +598,8 @@ class MainRightFrame(tk.Frame):
             self.middle_frame.log_text.insert("end", f"Rolling 1d4...\n")
             self.middle_frame.log_text.insert("end", f"Potion healed {self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides) + 2} hp\n")  # Append result to log
 
+            self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
+            self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
             return
         else:
             self.middle_frame.log_text.insert("end", "You have no Small Potions!\n")  # Append result to log
@@ -605,7 +608,8 @@ class MainRightFrame(tk.Frame):
     def use_large_potion(self):
         if int(self.notes_tab.large_contents.get()) > 0:
             # Reduce by one and roll 4d4 +4 to log
-            # self.notes_tab.large_contents -= 1
+            current = int(self.notes_tab.large_contents.get())
+            self.notes_tab.large_contents.set(str(current - 1))
 
             # ROLL
 
@@ -619,6 +623,8 @@ class MainRightFrame(tk.Frame):
             self.middle_frame.log_text.insert("end", f"Rolling 2d4...\n")
             self.middle_frame.log_text.insert("end", f"Potion healed {self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides) + 4} hp\n")
             
+            self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
+            self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
             return
         else:
             self.middle_frame.log_text.insert("end", "You have no Large Potions!\n")
