@@ -444,7 +444,7 @@ class MainMiddleFrame(tk.Frame):
         self.dice_roller.set_sides(20)
 
         # Roll button
-        roll_button = tk.Button(self, text="Roll Dice", command=self.roll_dice, bg="black", highlightthickness=0, borderwidth=0)
+        roll_button = tk.Button(self, text="Roll Dice", command=self.roll_dice, bg="black", fg="white", highlightthickness=0, borderwidth=0)
         roll_button.grid(row=2, column=0)
 
     def roll_dice(self):
