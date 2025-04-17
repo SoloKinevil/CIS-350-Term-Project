@@ -408,7 +408,7 @@ class Main_menu_tab(ttk.Frame):
         self.left_frame.grid(row=0, column=0, padx=5, pady=0, sticky="nsew")
 
         # Set up the Inventory frame of the main menu
-        self.right_frame = MainRightFrame(self, self.notes_tab)
+        self.right_frame = MainRightFrame(self, self.notes_tab, self.middle_frame, self.dice_roll)
         self.right_frame.grid(row=0, column=2, padx=5, pady=0, sticky="nsew")
 
 
@@ -515,10 +515,14 @@ class MainLeftFrame(tk.Frame):
 
 
 class MainRightFrame(tk.Frame):
-    def __init__(self, parent, notes_tab):
+    def __init__(self, parent, notes_tab, middle_frame, dice_roll):
         super().__init__(parent, bg="grey")
 
         self.notes_tab = notes_tab
+        self.middle_frame = middle_frame
+        self.dice_roll = dice_roll
+
+        self.dice_roller = dice_rolling.DiceRoll()
 
         # Set up grid for right frame
         for i in range(0, 20):
@@ -535,17 +539,17 @@ class MainRightFrame(tk.Frame):
 
         self.small_potion = tk.Label(self, text=f"Small Potions: {self.notes_tab.small_contents.get()}", font=("Georgia", 12))
         self.small_potion.grid(row=1, column=0, pady=10, sticky="nw")
-        self.small_potion_button = tk.Button(self, text="Use", command = self.use_small_potion())
+        self.small_potion_button = tk.Button(self, text="Use", command = self.use_small_potion)
         self.small_potion_button.grid(row=1, column=1, pady=10, sticky = "nw")
 
         self.large_potion = tk.Label(self, text=f"Large Potions: {self.notes_tab.large_contents.get()}", font=("Georgia", 12))
         self.large_potion.grid(row=2, column=0, pady=10, sticky="nw")
-        self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion())
+        self.large_potion_button = tk.Button(self, text="Use", command = self.use_large_potion)
         self.large_potion_button.grid(row=2, column=1, pady=10, sticky="nw")
 
         self.weapon_attack = tk.Label(self, text=f"Weapon: {self.notes_tab.weapon_contents.get()}",font=("Georgia", 12))
         self.weapon_attack.grid(row=3, column=0, pady=10, sticky="nw")
-        self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon())
+        self.weapon_attack_button = tk.Button(self, text="Use", command = self.use_weapon)
         self.weapon_attack_button.grid(row=3, column=1, pady=7, sticky="ne")
 
         # Add Stats label
@@ -583,9 +587,19 @@ class MainRightFrame(tk.Frame):
             # ROLL
 
             # Update Count
+            self.notes_tab.small_contents.set(int(self.notes_tab.small_contents.get()) - 1)
+            self.middle_frame.log_text.insert("end", f"{self.notes_tab.name_contents.get()} used a Small Potion!\n")
+            self.small_potion.config(text=f"Small Potions: {self.notes_tab.small_contents.get()}")
+
+            # Roll 1d4 +2
+            self.dice_roller.set_dice(1)
+            self.dice_roller.set_sides(4)
+            self.middle_frame.log_text.insert("end", f"Rolling 1d4...\n")
+            self.middle_frame.log_text.insert("end", f"Potion healed {self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides) + 2} hp\n")  # Append result to log
 
             return
         else:
+            self.middle_frame.log_text.insert("end", "You have no Small Potions!\n")  # Append result to log
             return "You have no Small Potions!" #To Log
 
     def use_large_potion(self):
@@ -596,9 +610,18 @@ class MainRightFrame(tk.Frame):
             # ROLL
 
             # Update count
+            self.notes_tab.large_contents.set(int(self.notes_tab.large_contents.get()) - 1)
+            self.middle_frame.log_text.insert("end", f"{self.notes_tab.name_contents.get()} used a Large Potion!\n")
+            self.large_potion.config(text=f"Large Potions: {self.notes_tab.large_contents.get()}")
+
+            self.dice_roller.set_dice(2)
+            self.dice_roller.set_sides(4)
+            self.middle_frame.log_text.insert("end", f"Rolling 2d4...\n")
+            self.middle_frame.log_text.insert("end", f"Potion healed {self.dice_roller.dice_roll(self.dice_roller.dice, self.dice_roller.sides) + 4} hp\n")
             
             return
         else:
+            self.middle_frame.log_text.insert("end", "You have no Large Potions!\n")
             return "You have no Large Potions!" #To Log
 
     def use_weapon(self):
